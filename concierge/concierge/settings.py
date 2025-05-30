@@ -11,6 +11,24 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+#SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")  # Keep secret keys safe
+
+DEBUG = os.getenv("DEBUG", "True") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+
+# Twilio Credentials (Loaded from .env)
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +38,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-h+n777ari12*28bvui0iv_38n4n1c=4p(z+2s1b9@_7okqgg@l"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

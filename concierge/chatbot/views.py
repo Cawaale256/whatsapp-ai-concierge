@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
+import os
 
 @csrf_exempt
 def whatsapp_webhook(request):
@@ -23,10 +24,11 @@ def whatsapp_webhook(request):
 
     return JsonResponse({"status": "invalid request"}, status=400)
 
+
 def send_whatsapp_message(to, message):
-    TWILIO_ACCOUNT_SID = "your_account_sid"
-    TWILIO_AUTH_TOKEN = "your_auth_token"
-    TWILIO_WHATSAPP_NUMBER = "whatsapp:+your_twilio_number"
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
 
     url = f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json"
 
