@@ -17,8 +17,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+def homepage(request):
+    return HttpResponse("Welcome to WhatsApp AI Concierge!")
 
 urlpatterns = [
+    path("", homepage),
     path("admin/", admin.site.urls),
     path("chatbot/", include("chatbot.urls")),
 ]

@@ -4,6 +4,9 @@ import json
 import requests
 import os
 
+def chatbot_response(request):
+    return JsonResponse({"message": "Hello from chatbot_response!"})
+
 @csrf_exempt
 def whatsapp_webhook(request):
     if request.method == "POST":
@@ -42,4 +45,9 @@ def send_whatsapp_message(to, message):
         "Authorization": f"Basic {TWILIO_ACCOUNT_SID}:{TWILIO_AUTH_TOKEN}"
     }
 
-    requests.post(url, data=payload, headers=headers)
+    # requests.post(url, data=payload, headers=headers)
+    response = requests.post(url, data=payload, headers=headers)
+    
+    # Debugging output
+    print("Twilio Response:", response.status_code, response.text)  
+    return response.status_code, response.text
