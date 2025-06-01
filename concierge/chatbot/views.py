@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 import os
+from requests.auth import HTTPBasicAuth
 
 def chatbot_response(request):
     return JsonResponse({"message": "Hello from chatbot_response!"})
@@ -26,6 +27,7 @@ def whatsapp_webhook(request):
         return JsonResponse({"status": "success", "response": response_message})
 
     return JsonResponse({"status": "invalid request"}, status=400)
+    return JsonResponse({"status": "success", "twilio_response": response.text})
 
 
 def send_whatsapp_message(to, message):
@@ -41,13 +43,10 @@ def send_whatsapp_message(to, message):
         "Body": message
     }
 
-    headers = {
-        "Authorization": f"Basic {TWILIO_ACCOUNT_SID}:{TWILIO_AUTH_TOKEN}"
-    }
+    # Use Twilio's correct authentication method
+    response = requests.post(url, data=payload, auth=HTTPBasicAuth(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN))
 
-    # requests.post(url, data=payload, headers=headers)
-    response = requests.post(url, data=payload, headers=headers)
-    
-    # Debugging output
-    print("Twilio Response:", response.status_code, response.text)  
+    # Debug Twilio response
+    print("Twilio Response:", response.status_code, response.text)
+
     return response.status_code, response.text
