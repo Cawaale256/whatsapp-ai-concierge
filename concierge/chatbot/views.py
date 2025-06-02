@@ -11,24 +11,30 @@ def chatbot_response(request):
 @csrf_exempt
 def whatsapp_webhook(request):
     if request.method == "POST":
-        data = json.loads(request.body)
-        message = data.get("Body", "")  # Get the received message
-        sender = data.get("From", "")   # Get sender's phone number
+        try:
+            # Parse incoming JSON data
+            data = json.loads(request.body)
+            print(f"Received WhatsApp Data: {data}")  # Log incoming data
 
-        # Example logic: Respond dynamically
-        if "hello" in message.lower():
-            response_message = "Hi there! How can I assist you?"
-        else:
-            response_message = f"You said: {message}"
+            message = data.get("Body", "")  # Extract the message text
+            sender = data.get("From", "")   # Extract sender's phone number
 
-        # Send response via Twilio (Replace with your credentials)
-        send_whatsapp_message(sender, response_message)
+            # Simple chatbot response logic
+            if "hello" in message.lower():
+                response_message = "Hi there! How can I assist you?"
+            else:
+                response_message = f"You said: {message}"
 
-        return JsonResponse({"status": "success", "response": response_message})
+            # Send response via Twilio
+            send_whatsapp_message(sender, response_message)
+
+            return JsonResponse({"status": "success", "response": response_message})
+
+        except json.JSONDecodeError:
+            print("Error decoding JSON")
+            return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
 
     return JsonResponse({"status": "invalid request"}, status=400)
-    return JsonResponse({"status": "success", "twilio_response": response.text})
-
 
 def send_whatsapp_message(to, message):
     TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
@@ -43,10 +49,10 @@ def send_whatsapp_message(to, message):
         "Body": message
     }
 
-    # Use Twilio's correct authentication method
+    # Authenticate using Twilio’s recommended method
     response = requests.post(url, data=payload, auth=HTTPBasicAuth(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN))
 
-    # Debug Twilio response
+    # Log Twilio's response for debugging
     print("Twilio Response:", response.status_code, response.text)
 
     return response.status_code, response.text
