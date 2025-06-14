@@ -8,16 +8,20 @@ from requests.auth import HTTPBasicAuth
 def chatbot_response(request):
     return JsonResponse({"message": "Hello from chatbot_response!"})
 
+
 @csrf_exempt
 def whatsapp_webhook(request):
     if request.method == "POST":
         try:
-            # Parse incoming JSON data
-            data = json.loads(request.body)
-            print(f"Received WhatsApp Data: {data}")  # Log incoming data
+            # Debug: Print full request data to verify format
+            print(f"Raw request body: {request.body.decode('utf-8')}")
+            print(f"Form data: {request.POST}")
 
-            message = data.get("Body", "")  # Extract the message text
-            sender = data.get("From", "")   # Extract sender's phone number
+            # Extract message & sender (Twilio sends form-encoded data)
+            message = request.POST.get("Body", "")
+            sender = request.POST.get("From", "")
+
+            print(f"Received WhatsApp Message: {message} from {sender}")  # Debugging log
 
             # Simple chatbot response logic
             if "hello" in message.lower():
@@ -30,11 +34,12 @@ def whatsapp_webhook(request):
 
             return JsonResponse({"status": "success", "response": response_message})
 
-        except json.JSONDecodeError:
-            print("Error decoding JSON")
-            return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
+        except Exception as e:
+            print(f"Error processing request: {e}")
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     return JsonResponse({"status": "invalid request"}, status=400)
+
 
 def send_whatsapp_message(to, message):
     TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
