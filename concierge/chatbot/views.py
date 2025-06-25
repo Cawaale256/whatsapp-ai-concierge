@@ -50,7 +50,9 @@ def whatsapp_webhook(request):
 
             # Personalize the prompt using the user's stored name
             user_name = profile.name or "traveler"
-            prompt = f"{user_name}, {message}"
+            #prompt = f"{user_name}, {message}"
+            prompt = generate_personalized_prompt(profile, message)
+  
 
             # Send prompt to GPT-4o and get AI-generated response
             ai_response = llm.invoke([HumanMessage(content=prompt)]).content
@@ -78,38 +80,6 @@ def whatsapp_webhook(request):
 
     # Handle unsupported request methods (e.g., GET)
     return JsonResponse({"status": "invalid request"}, status=400)
-
-# @csrf_exempt
-# def whatsapp_webhook(request):
-#     if request.method == "POST":
-#         try:
-#             message = request.POST.get("Body", "")
-#             sender = request.POST.get("From", "")
-#             print(f"[📥] Received WhatsApp Message: {message} from {sender}")
-
-#             if not message.strip():
-#                 print("[⚠️] Empty message received.")
-#                 return JsonResponse({"status": "error", "message": "Empty message"}, status=400)
-
-#             # Generate AI-powered response using LangChain
-#             ai_response = llm.invoke([HumanMessage(content=message)]).content
-#             ai_response = ai_response.strip()[:500]  # Twilio limit safeguard
-
-#             if not ai_response:
-#                 ai_response = "Sorry, I'm unable to generate a response at the moment."
-
-#             print(f"[🧠] AI Response: {repr(ai_response)}")
-
-#             # Send via Twilio WhatsApp API
-#             send_whatsapp_message(sender, ai_response)
-
-#             return JsonResponse({"status": "success", "response": ai_response})
-
-#         except Exception as e:
-#             print(f"[❌] Error processing webhook: {e}")
-#             return JsonResponse({"status": "error", "message": str(e)}, status=400)
-
-#     return JsonResponse({"status": "invalid request"}, status=400)
 
 
 def send_whatsapp_message(to, message):
@@ -147,3 +117,27 @@ def send_whatsapp_message(to, message):
         print(f"[✅] WhatsApp message successfully sent to {to}")
 
     return response.status_code, response.text
+
+
+def generate_personalized_prompt(profile, user_message):
+    context = []
+
+    if profile.name:
+        context.append(f"Name: {profile.name}")
+    if profile.last_destination:
+        context.append(f"Last destination: {profile.last_destination}")
+    if profile.travel_style:
+        context.append(f"Travel style: {profile.travel_style}")
+    if profile.travel_buddy:
+        context.append(f"Travel companion: {profile.travel_buddy}")
+    if profile.preferences:
+        context.append(f"Preferences: {profile.preferences}")
+
+    system_prompt = (
+        "You are a friendly and knowledgeable travel assistant. "
+        "Use the context provided to personalize your response."
+    )
+
+    full_prompt = system_prompt + "\n\n" + "\n".join(context) + f"\n\nUser: {user_message}"
+    return full_prompt
+
