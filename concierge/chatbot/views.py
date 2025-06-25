@@ -38,12 +38,26 @@ def whatsapp_webhook(request):
             lowered = message.lower()
 
             # Extract and store the name if the message contains "my name is"
-            if "my name is" in lowered:
-                profile.name = message.split("my name is")[-1].strip().split()[0]
+            # if "my name is" in lowered:
+            #     profile.name = message.split("my name is")[-1].strip().split()[0]
+            import re
 
-            # Store destination if "china" is mentioned (extendable with more logic)
-            if "china" in lowered:
-                profile.last_destination = "China"
+            name_match = re.search(r"my name is (\w+)", lowered)
+            if name_match:
+                profile.name = name_match.group(1).capitalize()
+
+
+            # Store destination  (extendable with more logic)
+            DESTINATIONS = ["egypt", "china", "tokyo", "paris", "bali", "rome", "cairo", "istanbul"]
+            matched = False
+            for city in DESTINATIONS:
+                if city in lowered:
+                    profile.last_destination = city.title()
+                    matched = True
+                    break
+            if not profile.last_destination:
+                ai_response = "Could you tell me where you're heading so I can help you plan?"
+
 
             # Save the updated profile
             profile.save()
@@ -125,7 +139,7 @@ def generate_personalized_prompt(profile, user_message):
     if profile.name:
         context.append(f"Name: {profile.name}")
     if profile.last_destination:
-        context.append(f"Last destination: {profile.last_destination}")
+        context.append(f"Planned destination: {profile.last_destination}")
     if profile.travel_style:
         context.append(f"Travel style: {profile.travel_style}")
     if profile.travel_buddy:
