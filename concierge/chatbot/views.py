@@ -132,6 +132,7 @@ def send_whatsapp_message(to, message):
 
     return response.status_code, response.text
 
+import dateparser
 
 def generate_personalized_prompt(profile, user_message):
     context = []
@@ -146,6 +147,12 @@ def generate_personalized_prompt(profile, user_message):
         context.append(f"Travel companion: {profile.travel_buddy}")
     if profile.preferences:
         context.append(f"Preferences: {profile.preferences}")
+   
+    # Extract date from user message using dateparser   
+    dt = dateparser.parse(user_message)
+    if dt:
+        weekday = dt.strftime("%A")  # e.g., "Monday"
+        context.append(f"User is asking about plans for a {weekday}")
 
     system_prompt = (
         "You are a friendly and knowledgeable travel assistant. "
