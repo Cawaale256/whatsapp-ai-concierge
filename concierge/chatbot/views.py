@@ -36,6 +36,20 @@ def whatsapp_webhook(request):
 
             # Lowercase the message for simple string checks
             lowered = message.lower()
+            
+            # Define a mapping of keywords to high-level traveler interest categories
+            INTEREST_TAGS = {
+                "food": "foodie",
+                "museum": "culture",
+                "spa": "wellness",
+                "hike": "adventure",
+                "partner": "romantic"  
+}
+            # Initialize an empty set to store detected interest tags without duplicates
+            user_tags = set()
+            for keyword, tag in INTEREST_TAGS.items(): #
+                if keyword in lowered:
+                    user_tags.add(tag)
 
             # Extract and store the name if the message contains "my name is"
             # if "my name is" in lowered:
@@ -65,7 +79,9 @@ def whatsapp_webhook(request):
             # Personalize the prompt using the user's stored name
             user_name = profile.name or "traveler"
             #prompt = f"{user_name}, {message}"
-            prompt = generate_personalized_prompt(profile, message)
+            #prompt = generate_personalized_prompt(profile, message)
+            prompt = generate_personalized_prompt(profile, message, interest_tags=user_tags)
+
   
 
             # Send prompt to GPT-4o and get AI-generated response
@@ -134,7 +150,7 @@ def send_whatsapp_message(to, message):
 
 import dateparser
 
-def generate_personalized_prompt(profile, user_message):
+def generate_personalized_prompt(profile, user_message, interest_tags=None):
     context = []
 
     if profile.name:
@@ -148,6 +164,9 @@ def generate_personalized_prompt(profile, user_message):
     if profile.preferences:
         context.append(f"Preferences: {profile.preferences}")
    
+    # Add interest-based tags extracted from this message (if any)
+    if interest_tags:
+        context.append(f"Traveler type: {', '.join(interest_tags)}")
     # Extract date from user message using dateparser   
     dt = dateparser.parse(user_message)
     if dt:
@@ -158,7 +177,7 @@ def generate_personalized_prompt(profile, user_message):
         "You are a friendly and knowledgeable travel assistant. "
         "Use the context provided to personalize your response."
     )
-
+    #Compose final prompt
     full_prompt = system_prompt + "\n\n" + "\n".join(context) + f"\n\nUser: {user_message}"
     return full_prompt
 
