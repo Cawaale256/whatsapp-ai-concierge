@@ -72,10 +72,19 @@ def whatsapp_webhook(request):
                     start_date=itinerary_info["start_date"],
                     end_date=itinerary_info["end_date"]
                 )
-
+                
                 if itinerary_info["day1_plan"]:
                     itinerary.daily_plan["Day 1"] = itinerary_info["day1_plan"]
                     itinerary.save()
+
+                # 🪴 Prompt user to add Day 2 plan or more
+                if created:
+                    if not itinerary_info["day1_plan"]:
+                        follow_up = "✈️ Your trip is saved! Want help adding a Day 1 activity?"
+                    else:
+                        follow_up = f"📅 Day 1 is set for {itinerary_info['day1_plan']}. Want me to help plan Day 2?"
+
+                    send_whatsapp_message(sender, follow_up)    
 
             # 6️⃣ Compose personalized GPT prompt
             prompt = generate_personalized_prompt(profile, message, interest_tags=user_tags)
