@@ -161,12 +161,34 @@ def generate_personalized_prompt(profile, user_message, interest_tags=None):
         weekday = dt.strftime("%A")
         context.append(f"User is asking about plans for a {weekday}")
 
-    system_prompt = "You are a friendly and knowledgeable travel assistant. Use the context to personalize your response."
+    # 🧭 Inject today's itinerary if there's an active trip
+    today = date.today()
+    active_itinerary = Itinerary.objects.filter(
+        user=profile,
+        start_date__lte=today,
+        end_date__gte=today
+    ).first()
+
+    if active_itinerary:
+        trip_day = (today - active_itinerary.start_date).days + 1
+        day_key = f"Day {trip_day}"
+        today_plan = active_itinerary.daily_plan.get(day_key)
+
+        if today_plan:
+            context.append(f"Today is {day_key} of the user's trip to {active_itinerary.destination}. The planned activity: {today_plan}")
+        else:
+            context.append(f"Today is {day_key} of the user's trip to {active_itinerary.destination}, but no activity is scheduled yet.")
+
+    # Compose the full prompt with system role
+    system_prompt = (
+        "You are a friendly and knowledgeable travel assistant. "
+        "Use the context to personalize your response."
+    )
     full_prompt = system_prompt + "\n\n" + "\n".join(context) + f"\n\nUser: {user_message}"
 
-    return full_prompt
+    return full_prompt    
 
-
+    
 # 🧳 Helper: Extract Itinerary Info Using SpaCy and DateParser
 def extract_itinerary_info(user_message):
     lowered = user_message.lower()
