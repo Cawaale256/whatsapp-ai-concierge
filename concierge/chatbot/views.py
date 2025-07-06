@@ -72,7 +72,7 @@ def whatsapp_webhook(request):
                     start_date=itinerary_info["start_date"],
                     end_date=itinerary_info["end_date"]
                 )
-                
+
                 if itinerary_info["day1_plan"]:
                     itinerary.daily_plan["Day 1"] = itinerary_info["day1_plan"]
                     itinerary.save()
@@ -202,14 +202,13 @@ def generate_personalized_prompt(profile, user_message, interest_tags=None):
 def extract_itinerary_info(user_message):
     lowered = user_message.lower()
 
-    # Step 1: Extract up to two dates
+    # Step 1: Extract start and end dates
     found_dates = search_dates(user_message)
     parsed_dates = sorted([dt.date() for _, dt in found_dates]) if found_dates else []
-
     start_date = parsed_dates[0] if len(parsed_dates) > 0 else None
     end_date = parsed_dates[1] if len(parsed_dates) > 1 else None
 
-    # Step 2: Use NER to detect geographic place (city or country)
+    # Step 2: Use SpaCy NER to detect destination
     doc = nlp(user_message)
     destination = None
     for ent in doc.ents:
@@ -217,15 +216,27 @@ def extract_itinerary_info(user_message):
             destination = ent.text.title()
             break
 
-    # Step 3: Extract Day 1 plan with regex
-    day1_match = re.search(r"(first day|day one|day 1)[^\w]{0,10}([a-z\s]+)", lowered)
-    day1_plan = day1_match.group(2).strip().capitalize() if day1_match else None
+    # Step 3: Extract multi-day plans using regex
+    day_plan_pattern = re.findall(r"(day\s*(\d+))[^\w]{0,10}([a-z\s]{3,})", lowered)
+    daily_plan = {}
 
-    print(f"[🧭] Extracted ➜ Destination: {destination}, Dates: {parsed_dates}, Day 1: {day1_plan}")
+    for full_match, day_num, plan_text in day_plan_pattern:
+        day_key = f"Day {int(day_num)}"
+        daily_plan[day_key] = plan_text.strip().capitalize()
+
+    # Step 4: Extract "first day" phrasing if no explicit Day 1
+    if "Day 1" not in daily_plan:
+        day1_match = re.search(r"(first day|day one|day 1)[^\w]{0,10}([a-z\s]+)", lowered)
+        if day1_match:
+            daily_plan["Day 1"] = day1_match.group(2).strip().capitalize()
+
+    # ✅ Debug output
+    print(f"[🧭] Extracted ➜ Destination: {destination}, Dates: {parsed_dates}, Plans: {daily_plan}")
 
     return {
         "destination": destination,
         "start_date": start_date,
         "end_date": end_date,
-        "day1_plan": day1_plan
+        "daily_plan": daily_plan  # Now includes Day 1–7
     }
+
