@@ -14,7 +14,7 @@ from langchain_openai import ChatOpenAI
 from .models import TravelerProfile, ChatHistory, Itinerary
 import dateparser
 from dateparser.search import search_dates
-
+import traceback
 
 # Load environment variables from .env
 load_dotenv()
@@ -33,6 +33,8 @@ def chatbot_response(request):
 @csrf_exempt
 def whatsapp_webhook(request):
     if request.method == "POST":
+        print(" Webhook hit by:", request.POST.get("From"))
+        print(" Message received:", request.POST.get("Body"))
         try:
             message = request.POST.get("Body", "").strip()
             sender = request.POST.get("From", "").strip()
@@ -52,6 +54,9 @@ def whatsapp_webhook(request):
                 "partner": "romantic"
             }
             user_tags = {tag for keyword, tag in INTEREST_TAGS.items() if keyword in lowered}
+            # Persist inferred preferences
+            profile.preferences = ", ".join(user_tags)
+            profile.save()
 
             # 3️⃣ Parse name if introduced
             name_match = re.search(r"my name is (\w+)", lowered)
@@ -105,9 +110,13 @@ def whatsapp_webhook(request):
             # 🔟 Send the reply to WhatsApp
             send_whatsapp_message(sender, ai_response)
 
-            return JsonResponse({"status": "success", "response": ai_response})
-
+            #return JsonResponse({"status": "success", "response": ai_response})
+            response = JsonResponse({"status": "success", "response": ai_response})
+            response["ngrok-skip-browser-warning"] = "true"
+            return response
+        
         except Exception as e:
+            print(traceback.format_exc())
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     return JsonResponse({"status": "invalid request"}, status=400)
@@ -115,7 +124,7 @@ def whatsapp_webhook(request):
 
 def send_whatsapp_message(to, message):
     if to.startswith("whatsapp:"):
-        to = to.replace("whatsapp:", "")
+        to = to[len("whatsapp:"):]  # Keeps the '+'
 
     TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
     TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
