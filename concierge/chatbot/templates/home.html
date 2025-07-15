@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Travel Concierge</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to Your AI Travel Companion 🧭</h1>
+        <p>Plan smarter. Explore deeper. Travel with confidence.</p>
+    </div>
+
+    <!-- City Carousel -->
+    <div class="carousel">
+        <img src="https://source.unsplash.com/300x180/?paris" alt="Paris">
+        <img src="https://source.unsplash.com/300x180/?tokyo" alt="Tokyo">
+        <img src="https://source.unsplash.com/300x180/?marrakech" alt="Marrakech">
+        <img src="https://source.unsplash.com/300x180/?new-york" alt="New York">
+        <img src="https://source.unsplash.com/300x180/?amsterdam" alt="Amsterdam">
+    </div>
+
+    <div class="itinerary-preview">
+    <h2>Your Next Trip</h2>
+    <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
+    <p><strong>Dates:</strong> {{ itinerary.start_date }} – {{ itinerary.end_date }}</p>
+
+    {% for day, plan in itinerary.daily_plan.items %}
+        <p><strong>{{ day }}:</strong> {{ plan }}</p>
+    {% endfor %}
+
+    {% if itinerary.daily_plan|length < 7 %}
+        <p>Want help planning Day {{ itinerary.daily_plan|length|add:"1" }}?</p>
+    {% endif %}
+</div>
+
+
+</body>
+</html>

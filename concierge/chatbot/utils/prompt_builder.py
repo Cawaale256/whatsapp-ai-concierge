@@ -1,5 +1,5 @@
 from datetime import date
-from .models import Itinerary
+from ..models import Itinerary
 import dateparser
 
 
