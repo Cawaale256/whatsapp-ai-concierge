@@ -1,4 +1,6 @@
 import os
+import requests
+from requests.auth import HTTPBasicAuth
 import traceback
 from datetime import date
 from dotenv import load_dotenv
@@ -110,3 +112,49 @@ def whatsapp_webhook(request):
     except Exception as e:
         print(traceback.format_exc())
         return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    
+
+def send_whatsapp_message(to, message):
+    # Remove 'whatsapp:' prefix if present, but keep the '+' for phone numbers
+    if to.startswith("whatsapp:"):
+        to = to[len("whatsapp:"):]  
+
+    # Load Twilio credentials from environment variables
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_WHATSAPP_NUMBER = os.getenv("TWILIO_WHATSAPP_NUMBER")
+    STATUS_CALLBACK = os.getenv("TWILIO_STATUS_CALLBACK_URL")  # Optional for delivery tracking
+
+    # Verify that required credentials are present
+    if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_NUMBER]):
+        print("[❗] Missing Twilio credentials.")
+        return 500, "Twilio not configured."
+
+    # Construct the Twilio Messages API URL
+    url = f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_ACCOUNT_SID}/Messages.json"
+
+    # Prepare the message payload
+    payload = {
+        "From": f"whatsapp:{TWILIO_WHATSAPP_NUMBER}",
+        "To": f"whatsapp:{to}",
+        "Body": message
+    }
+
+    # Optionally include a status callback URL
+    if STATUS_CALLBACK:
+        payload["StatusCallback"] = STATUS_CALLBACK
+
+    # Make the POST request to Twilio API with basic authentication
+    response = requests.post(url, data=payload, auth=HTTPBasicAuth(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN))
+
+    # Log result to console based on response status
+    if response.status_code != 201:
+        print(f"[🚫] Twilio error: {response.status_code}, {response.text}")
+    else:
+        print(f"[✅] WhatsApp message sent to {to}")
+
+    # Return the HTTP status and Twilio response text
+    return response.status_code, response.text
+
+    
+   
