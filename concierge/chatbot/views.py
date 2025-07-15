@@ -12,7 +12,7 @@ from .models import TravelerProfile, ChatHistory, Itinerary
 from .utils.preferences import detect_interest_tags, scan_preferences
 from .utils.prompt_builder import generate_personalized_prompt
 from .utils.itinerary import extract_itinerary_info
-from .twilio import send_whatsapp_message
+
 
 # Load environment variables from .env file
 load_dotenv()

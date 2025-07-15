@@ -1,3 +1,4 @@
+from ..models import ChatHistory  # Import the ChatHistory model to query user messages
 # Mapping keywords to tags
 INTEREST_TAGS = {
     "food": "foodie",
