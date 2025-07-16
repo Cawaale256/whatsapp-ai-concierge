@@ -1,0 +1,33 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f2f2f2;
+}
+
+.hero {
+    text-align: center;
+    background: linear-gradient(to right, #2c3e50, #3498db);
+    color: white;
+    padding: 60px 20px;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 20px;
+}
+
+.carousel img {
+    height: 180px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.itinerary-preview {
+    padding: 20px;
+    background: white;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
