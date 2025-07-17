@@ -12,6 +12,7 @@ from .models import TravelerProfile, ChatHistory, Itinerary
 from .utils.preferences import detect_interest_tags, scan_preferences
 from .utils.prompt_builder import generate_personalized_prompt
 from .utils.itinerary import extract_itinerary_info
+from django.shortcuts import render
 
 
 # Load environment variables from .env file
@@ -21,12 +22,19 @@ load_dotenv()
 llm = ChatOpenAI(model_name="gpt-4o")
 
 
-# ✅ Basic healthcheck for debugging
+from .models import Itinerary
+
+def home(request):
+    # For demo, fetch the first itinerary (you’ll want to filter by user later)
+    itinerary = Itinerary.objects.first()
+    return render(request, "home.html", {"itinerary": itinerary})
+
+# Basic healthcheck for debugging
 def chatbot_response(request):
     return JsonResponse({"message": "Hello from chatbot_response!"})
 
 
-# 📩 WhatsApp webhook listener for incoming messages
+#  WhatsApp webhook listener for incoming messages
 @csrf_exempt
 def whatsapp_webhook(request):
     if request.method != "POST":
