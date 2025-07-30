@@ -13,6 +13,18 @@ from .utils.preferences import detect_interest_tags, scan_preferences
 from .utils.prompt_builder import generate_personalized_prompt
 from .utils.itinerary import extract_itinerary_info
 from django.shortcuts import render
+from django.http import FileResponse, Http404
+from django.conf import settings
+
+def carousel_image(request, filename):
+    image_path = os.path.join(settings.BASE_DIR, 'static/images/carousel', filename)
+    if os.path.exists(image_path):
+        response = FileResponse(open(image_path, 'rb'))
+        response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response['Pragma'] = 'no-cache'
+        return response
+    else:
+        raise Http404("Image not found")
 
 
 # Load environment variables from .env file
