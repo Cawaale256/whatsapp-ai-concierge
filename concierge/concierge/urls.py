@@ -17,13 +17,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
+from chatbot.views import home  # Import your real homepage view
+from django.conf import settings
+from django.conf.urls.static import static
 
-def homepage(request):
-    return HttpResponse("Welcome to WhatsApp AI Concierge!")
 
 urlpatterns = [
-    path("", homepage),
+    path("", home, name="home"),           # Use chatbot.views.home here
     path("admin/", admin.site.urls),
     path("chatbot/", include("chatbot.urls")),
 ]
+
+
