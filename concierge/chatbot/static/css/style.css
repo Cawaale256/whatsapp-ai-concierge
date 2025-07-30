@@ -1,33 +1,145 @@
+/*======================
+  Global Styles
+======================*/
 body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background: #f2f2f2;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
 }
 
+/*======================
+  Hero Section
+======================*/
 .hero {
-    text-align: center;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    color: white;
-    padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+  padding: 60px 20px;
+  background-color: transparent;
 }
 
-.carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 16px;
-    padding: 20px;
+/*======================
+  Carousel Wrapper
+======================*/
+.carousel-inner {
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 684px;
+  background-color: #fff;
 }
 
-.carousel img {
-    height: 180px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+/*======================
+  Carousel Items & Images
+======================*/
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 684px;
 }
 
+.carousel-item img {
+  width: 1024px;
+  height: 684px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/*======================
+  Carousel Indicators
+======================*/
+.carousel-indicators button {
+  background-color: #3498db;
+  border: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 6px;
+}
+
+/*======================
+  Itinerary Section
+======================*/
 .itinerary-preview {
-    padding: 20px;
-    background: white;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  background: white;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 720px;
+}
+
+/*======================
+  Responsive Adjustments
+======================*/
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .hero {
+    padding: 30px 10px;
+    font-size: 0.9rem;
+  }
+
+  .carousel-inner,
+  .carousel-item {
+    height: auto;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .itinerary-preview {
+    margin: 10px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Tablets & Small Laptops */
+@media (max-width: 1024px) {
+  .hero {
+    padding: 40px 15px;
+  }
+
+  .carousel-item img {
+    width: 90%;
+    height: auto;
+  }
+
+  .itinerary-preview {
+    max-width: 90%;
+  }
+}
+
+/* Large Desktops */
+@media (min-width: 1200px) {
+  .hero {
+    padding: 80px 40px;
+    font-size: 1.2rem;
+  }
+
+  .carousel-item img {
+    width: 1200px;
+    height: 720px;
+  }
+
+  .itinerary-preview {
+    max-width: 960px;
+    font-size: 1.1rem;
+  }
 }
