@@ -25,4 +25,6 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 2. Add `.env` with Twilio & OpenAI credentials  
 3. Run migrations and start server  
 4. Connect webhook to Twilio sandbox
+5. Start ngrok: `ngrok http 8000`  
+6. Set Twilio webhook to: `https://<your-ngrok-url>/chatbot/webhook/`
 
