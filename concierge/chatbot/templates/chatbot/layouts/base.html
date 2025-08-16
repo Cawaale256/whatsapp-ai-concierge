@@ -1,0 +1,37 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}AI Travel Concierge{% endblock %}</title>
+    
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Page-specific CSS -->
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Header / Nav (Optional: include site-wide nav here) -->
+    {% include 'partials/header.html' %}
+
+    <main role="main">
+        {% block content %}
+        <!-- Child templates will inject content here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+
+    <!-- Global Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- Page-specific Scripts -->
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+
