@@ -16,8 +16,6 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 > **Status:** Planned – current project uses a simplified template layout for faster development.  
 > This structure will be adopted in a future update for improved maintainability, scalability, and readability.
 
-
-
 ### Proposed Directory Tree
 <img width="231" height="612" alt="Screenshot 2025-08-16 160517" src="https://github.com/user-attachments/assets/4819842a-06b9-49b3-99bc-99ab7af2e3ab" />
 

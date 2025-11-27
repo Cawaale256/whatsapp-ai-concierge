@@ -31,7 +31,7 @@ def extract_itinerary_info(user_message):
         if day1_match:
             daily_plan["Day 1"] = day1_match.group(2).strip().capitalize()
 
-    print(f"[🧭] Extracted ➜ Destination: {destination}, Dates: {parsed_dates}, Plans: {daily_plan}")
+    print(f" Extracted ➜ Destination: {destination}, Dates: {parsed_dates}, Plans: {daily_plan}")
 
     # Step 5: Always return a safe structure
     return {
