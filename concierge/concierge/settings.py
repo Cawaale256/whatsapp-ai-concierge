@@ -105,7 +105,12 @@ DATABASES = {
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": os.getenv("DB_HOST"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "PORT": os.getenv("DB_PORT"),
+        "OPTIONS": {"sslmode": "require"},
+        "TEST": {
+            "ENGINE": "django.db.backends.sqlite3",   # use SQLite for tests
+            "NAME": ":memory:",                       # in‑memory DB (fast, isolated)
+        },
     }
 }
 
