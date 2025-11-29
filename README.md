@@ -30,6 +30,14 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 ### Rendering Flow
 <img width="1024" height="1024" alt="Copilot_20250816_162816" src="https://github.com/user-attachments/assets/948f6186-3789-4cc7-82be-7f6c7732033b" />
 
+## Testing
+
+- Unit tests written with `pytest` and `pytest-django`
+- Fixtures defined in `conftest.py` to seed sample TravelerProfile and Itinerary data
+- SQLite used as the test database for fast, isolated runs in Codespaces
+- Integration tests run against Neon/Postgres to validate production behavior
+
+
 ## Tech Stack
 
 - **Backend**: Django, Python
