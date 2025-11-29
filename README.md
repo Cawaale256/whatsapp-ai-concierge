@@ -2,6 +2,14 @@
 
 A conversational AI platform that helps travelers plan and manage their trips via WhatsApp. Built with Django, LangChain, and GPT-4o, this concierge system delivers personalized itinerary suggestions, destination insights, and real-time support.
 
+## User Stories
+
+- As a traveller, I want to ask the AI concierge questions via WhatsApp so that I can receive instant responses about destinations, transportation, and accommodations.
+- As a frequent traveller, I want the AI concierge to remember my preferences and past interactions so that I receive personalized recommendations for my next trip.
+- As a developer building my portfolio, I want to simulate how a business owner could integrate tourism services with the AI concierge via WhatsApp so that I can showcase automated customer support capabilities.
+- As a user, I want my conversation history to be securely stored so that I can revisit past interactions without losing important travel information.
+
+
 ## Features
 
 - WhatsApp integration via Twilio Webhook
@@ -21,7 +29,6 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 
 ### Rendering Flow
 <img width="1024" height="1024" alt="Copilot_20250816_162816" src="https://github.com/user-attachments/assets/948f6186-3789-4cc7-82be-7f6c7732033b" />
-
 
 ## Tech Stack
 
