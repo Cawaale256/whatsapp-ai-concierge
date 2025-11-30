@@ -30,3 +30,20 @@ def itinerary(traveler):
         daily_plan={"Day 1": "Colosseum", "Day 2": "Vatican"},
         timezone="Europe/Rome"
     )
+
+@pytest.fixture(params=[
+    {"name": "Alice", "phone": "+447100000001", "style": "Budget", "buddy": "Solo"},
+    {"name": "Bob",   "phone": "+447100000002", "style": "Luxury", "buddy": "Couple"},
+    {"name": "Cara",  "phone": "+447100000003", "style": "Adventure", "buddy": "Group"},
+    {"name": "Dan",   "phone": "+447100000004", "style": "Relaxed", "buddy": "Solo"},
+])
+def traveler_param(request):
+    data = request.param
+    return TravelerProfile.objects.create(
+        phone_number=data["phone"],
+        name=data["name"],
+        last_destination="Paris",
+        travel_style=data["style"],
+        travel_buddy=data["buddy"],
+        preferences="Food, art, culture"
+    )
