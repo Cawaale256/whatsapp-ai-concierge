@@ -3,6 +3,7 @@
 # Provides shared fixtures for TravelerProfile, Itinerary, etc.
 # These fixtures automatically seed the SQLite test database during test runs,
 # ensuring fast, isolated, and realistic data setup without touching the Neon/Postgres production DB.
+# Includes parametrized travelers and a Django test client for reuse.
 
 from django.test import Client
 import pytest
