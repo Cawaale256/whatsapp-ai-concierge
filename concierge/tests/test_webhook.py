@@ -1,5 +1,4 @@
 # concierge/tests/test_webhook.py
-# concierge/tests/test_webhook.py
 # Webhook test suite for WhatsApp AI Travel Concierge.
 # Covers valid and invalid requests, multiple message sequences, itinerary creation,
 # and preference parsing. Uses fixtures from conftest.py (traveler, client, etc.)

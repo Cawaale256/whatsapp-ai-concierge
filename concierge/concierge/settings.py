@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'chatbot',  # Registering chatbot app
+    'concierge.chatbot',  # Registering chatbot app
 ]
 
 

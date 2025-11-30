@@ -8,7 +8,7 @@
 from django.test import Client
 import pytest
 pytestmark = pytest.mark.django_db
-from chatbot.models import TravelerProfile, Itinerary
+from concierge.chatbot.models import TravelerProfile, Itinerary
 
 @pytest.fixture
 def traveler():
