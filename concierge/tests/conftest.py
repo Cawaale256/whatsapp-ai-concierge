@@ -4,6 +4,7 @@
 # These fixtures automatically seed the SQLite test database during test runs,
 # ensuring fast, isolated, and realistic data setup without touching the Neon/Postgres production DB.
 
+from django.test import Client
 import pytest
 from chatbot.models import TravelerProfile, Itinerary
 
@@ -47,3 +48,8 @@ def traveler_param(request):
         travel_buddy=data["buddy"],
         preferences="Food, art, culture"
     )
+
+@pytest.fixture
+def client():
+    return Client()
+
