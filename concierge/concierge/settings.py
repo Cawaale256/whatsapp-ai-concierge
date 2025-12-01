@@ -107,12 +107,10 @@ DATABASES = {
         "HOST": os.getenv("DB_HOST"),
         "PORT": os.getenv("DB_PORT"),
         "OPTIONS": {"sslmode": "require"},
-        "TEST": {
-            "ENGINE": "django.db.backends.sqlite3",   # use SQLite for tests
-            "NAME": ":memory:",                       # in‑memory DB (fast, isolated)
-        },
+        "TEST": { 
+            "NAME": "concierge_test",   # A real test DB name
     }
-}
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
