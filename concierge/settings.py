@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'chatbot',  # Registering chatbot app
+    'concierge.chatbot',  # chatbot app
 ]
 
 
@@ -111,7 +111,7 @@ DATABASES = {
             "NAME": "concierge_test",   # A real test DB name
     }
 } 
-
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 

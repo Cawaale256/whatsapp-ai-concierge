@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('chatbot.urls')),  # Routes homepage, chatbot responses, webhook, and carousel image
+    path('', include('concierge.chatbot.urls')),  # Routes homepage, chatbot responses, webhook, and carousel image
 ]
 
 # Optional: Serve static files in development

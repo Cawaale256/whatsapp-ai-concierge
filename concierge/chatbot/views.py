@@ -1,5 +1,6 @@
 import re
 import datetime
+import traceback
 from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,7 @@ from .models import TravelerProfile, ChatHistory, Itinerary
 from .utils.preferences import detect_interest_tags, scan_preferences
 from .utils.prompt_builder import generate_personalized_prompt
 from .utils.itinerary import extract_itinerary_info
+from .utils.messaging import send_whatsapp_message 
 from langchain.schema import HumanMessage
 from langchain_openai import ChatOpenAI
 

@@ -6,7 +6,7 @@
 
 import pytest
 from django.urls import reverse
-from chatbot.models import ChatHistory, TravelerProfile
+from concierge.chatbot.models import ChatHistory, TravelerProfile
 
 pytestmark = pytest.mark.django_db
 
