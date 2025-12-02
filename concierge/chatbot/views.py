@@ -54,20 +54,21 @@ def whatsapp_webhook(request):
         itinerary_info = extract_itinerary_info(message)
         if itinerary_info.get("destination"):
             profile.last_destination = itinerary_info["destination"]
-        profile.save()
+            profile.save()
 
-        if all([itinerary_info.get("destination"),
-                itinerary_info.get("start_date"),
-                itinerary_info.get("end_date")]):
+            # Always create itinerary if destination is found
             itinerary, created = Itinerary.objects.get_or_create(
                 user=profile,
                 destination=itinerary_info["destination"],
-                start_date=itinerary_info["start_date"],
-                end_date=itinerary_info["end_date"]
+                start_date=itinerary_info.get("start_date"),
+                end_date=itinerary_info.get("end_date")
             )
             if itinerary_info.get("daily_plan"):
                 itinerary.daily_plan.update(itinerary_info["daily_plan"])
-                itinerary.save()
+            itinerary.save()
+        else:
+            profile.save()
+
 
         # Generate AI response
         prompt = generate_personalized_prompt(profile, message, interest_tags=user_tags)
