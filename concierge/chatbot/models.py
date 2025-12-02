@@ -27,7 +27,7 @@ class Itinerary(models.Model):
     user = models.ForeignKey("TravelerProfile", on_delete=models.CASCADE)
     destination = models.CharField(max_length=100)
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     daily_plan = models.JSONField(blank=True, default=dict)  # e.g., {"Day 1": "Hammam + street food", ...}
     timezone = models.CharField(max_length=50, blank=True)   # optional for time-based notifications
 
