@@ -37,6 +37,119 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 - SQLite used as the test database for fast, isolated runs in Codespaces
 - Integration tests run against Neon/Postgres to validate production behavior
 
+# Running Tests
+This project uses pytest with Django integration to verify functionality. Tests cover webhook behavior, itinerary creation, preference parsing, and OpenAI integration.
+
+Step‑by‑step guide
+Activate your virtual environment
+
+bash
+source myenv/bin/activate
+You should see (myenv) at the start of your terminal prompt.
+
+Install dependencies
+
+bash:
+pip install -r requirements.txt
+Apply migrations Django tests use a separate database. Make sure migrations are applied:
+
+bash:
+python manage.py migrate
+Run the test suite Use verbose mode (-v) to see each test name, and --reuse-db to speed up repeated runs by reusing the test database:
+
+bash:
+pytest -v --reuse-db
+Example output:
+
+Code
+concierge/tests/test_webhook.py::test_webhook_valid_post PASSED
+concierge/tests/test_webhook.py::test_itinerary_created_from_command PASSED
+...
+12 passed in 51.18s
+Interpreting results
+
+PASSED → test succeeded
+
+FAILED → something broke; pytest will show a traceback
+
+WARNINGS → not failures, but notes about deprecations or environment setup (safe to ignore for now)
+
+Notes
+Current warnings (Spacy deprecation, Django staticfiles, test DB teardown) are non‑blocking and will be addressed in future cleanup.
+
+Always commit your code and requirements.txt, but never commit your virtual environment (myenv/). Use .gitignore to keep your repo clean.
+
+# Troubleshooting
+Even with all dependencies installed, you may run into a few common issues when running tests or migrations. Here’s how to fix them:
+
+1. Missing PostgreSQL driver (psycopg2-binary)
+Error message:
+django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 or psycopg module
+Fix: Add the driver to your environment:
+
+bash
+pip install psycopg2-binary
+Make sure it’s also listed in requirements.txt:
+
+Code
+psycopg2-binary==2.9.9
+2. Torch installation error (torch==2.6.0+cpu)
+Error message:
+
+Code
+ERROR: No matching distribution found for torch==2.6.0+cpu
+Fix: Replace the line in requirements.txt with:
+
+Code
+torch==2.6.0
+Then reinstall:
+
+bash
+pip install -r requirements.txt
+3. Database conflicts during test teardown
+Error message:
+
+Code
+OperationalError: database "concierge_test" is being accessed by other users
+Fix: Run tests with the --reuse-db flag to avoid recreating the test database each time:
+
+bash
+pytest -v --reuse-db
+Or ensure only one pytest session is running at a time.
+
+4. Staticfiles warning in Django
+Warning message:
+
+Code
+UserWarning: No directory at: /workspaces/whatsapp-ai-concierge/staticfiles/
+Fix: Create the missing directory:
+
+bash
+mkdir staticfiles
+Or update STATIC_ROOT in settings.py to point to a valid path.
+
+5. Deprecation warnings (Spacy / Click)
+Warning message:
+
+Code
+DeprecationWarning: Importing 'parser.split_arg_string' is deprecated
+Fix: Safe to ignore for now. These will be resolved automatically when upgrading dependencies in the future.
+
+# Common Setup Mistakes:
+Forgetting to activate the virtual environment Always run source myenv/bin/activate before installing or testing.
+
+Not installing dependencies Run pip install -r requirements.txt after cloning the repo.
+
+Missing PostgreSQL driver Install psycopg2-binary if you see Error loading psycopg2 or psycopg module.
+
+Torch install error (+cpu tag) Use torch==2.6.0 instead of torch==2.6.0+cpu.
+
+No .env file Add Twilio and OpenAI credentials in .env before starting the server.
+
+Staticfiles warning Create a staticfiles/ directory or update STATIC_ROOT in settings.py.
+
+Database conflicts in tests Use pytest -v --reuse-db to avoid teardown errors.
+
 
 ## Tech Stack
 
