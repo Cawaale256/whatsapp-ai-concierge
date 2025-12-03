@@ -1,0 +1,142 @@
+/*======================
+  Global Styles
+======================*/
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+/*======================
+  Hero Section
+======================*/
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+  padding: 60px 20px;
+  background-color: transparent;
+}
+
+/*======================
+  Carousel Wrapper
+======================*/
+.carousel-inner {
+  display: block; /* Remove flex */
+  text-align: center;
+  position: relative;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 684px;
+}
+
+/*======================
+  Carousel Items & Images
+======================*/
+.carousel-item {
+  text-align: center;
+  height: 684px;
+}
+
+.carousel-item img {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  object-fit: cover;
+}
+/*======================
+  Carousel Indicators
+======================*/
+.carousel-indicators button {
+  background-color: #3498db;
+  border: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 6px;
+}
+
+/*======================
+  Itinerary Section
+======================*/
+.itinerary-preview {
+  padding: 20px;
+  background: white;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 720px;
+}
+
+/*======================
+  Responsive Adjustments
+======================*/
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .hero {
+    padding: 30px 10px;
+    font-size: 0.9rem;
+  }
+
+  .carousel-inner,
+  .carousel-item {
+    height: auto;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .itinerary-preview {
+    margin: 10px;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Tablets & Small Laptops */
+@media (max-width: 1024px) {
+  .hero {
+    padding: 40px 15px;
+  }
+
+  .carousel-item img {
+    width: 90%;
+    height: auto;
+  }
+
+  .itinerary-preview {
+    max-width: 90%;
+  }
+}
+
+/* Large Desktops */
+@media (min-width: 1200px) {
+  .hero {
+    padding: 80px 40px;
+    font-size: 1.2rem;
+  }
+
+  .carousel-item img {
+    width: 1200px;
+    height: 720px;
+  }
+
+  .itinerary-preview {
+    max-width: 960px;
+    font-size: 1.1rem;
+  }
+}

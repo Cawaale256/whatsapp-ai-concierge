@@ -19,10 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 
+def home(request):
+    return HttpResponse("Welcome to the WhatsApp AI Concierge!")
 urlpatterns = [
+    path("", home),  # root URL
     path('admin/', admin.site.urls),
-    path('', include('concierge.chatbot.urls')),  # Routes homepage, chatbot responses, webhook, and carousel image
+    path("chatbot/", include("concierge.chatbot.urls")),  # chatbot routes
 ]
 
 # Optional: Serve static files in development
