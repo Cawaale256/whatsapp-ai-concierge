@@ -39,8 +39,6 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 - **All tests live in `concierge/tests/` for clarity and maintainability**
 - Current test suite: 12 tests passing (pytest + pytest-django)
 
-![alt text](<Screenshot 2025-12-04 125556.png>)
-
 
 ## Running Tests
 This project uses pytest with Django integration to verify functionality. Tests cover webhook behavior, itinerary creation, preference parsing, and OpenAI integration.
@@ -81,6 +79,8 @@ WARNINGS → not failures, but notes about deprecations or environment setup (sa
 
 Notes
 Current warnings (Spacy deprecation, Django staticfiles, test DB teardown) are non‑blocking and will be addressed in future cleanup.
+
+![alt text](<Screenshot 2025-12-04 125556-1.png>)
 
 Always commit your code and requirements.txt, but never commit your virtual environment (myenv/). Use .gitignore to keep your repo clean.
 
