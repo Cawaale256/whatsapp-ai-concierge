@@ -30,3 +30,7 @@ coverage.xml
 # Nested repo cleanup
 whatsapp-ai-concierge/
 
+# Prevent accidental recreation of redundant test file
+concierge/chatbot/tests.py
+
+
