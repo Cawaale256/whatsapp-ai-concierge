@@ -1,5 +1,32 @@
+# Environment & secrets
 .env
 myenv/
+venv/
+.venv/
+
+# Python cache
 *.pyc
+*.pyo
 __pycache__/
+
+# Django static & media
+staticfiles/
+media/
+
+# Database
+*.sqlite3
+
+# Test & coverage
+.pytest_cache/
+.coverage
+coverage.xml
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Nested repo cleanup
+whatsapp-ai-concierge/
 
