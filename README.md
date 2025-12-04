@@ -37,6 +37,10 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 - SQLite used as the test database for fast, isolated runs in Codespaces
 - Integration tests run against Neon/Postgres to validate production behavior
 - **All tests live in `concierge/tests/` for clarity and maintainability**
+- Current test suite: 12 tests passing (pytest + pytest-django)
+
+![alt text](<Screenshot 2025-12-04 125556.png>)
+
 
 ## Running Tests
 This project uses pytest with Django integration to verify functionality. Tests cover webhook behavior, itinerary creation, preference parsing, and OpenAI integration.
@@ -136,7 +140,7 @@ Code
 DeprecationWarning: Importing 'parser.split_arg_string' is deprecated
 Fix: Safe to ignore for now. These will be resolved automatically when upgrading dependencies in the future.
 
-# Common Setup Mistakes:
+## Common Setup Mistakes:
 Forgetting to activate the virtual environment Always run source myenv/bin/activate before installing or testing.
 
 Not installing dependencies Run pip install -r requirements.txt after cloning the repo.
