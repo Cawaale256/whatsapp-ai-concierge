@@ -37,7 +37,7 @@ A conversational AI platform that helps travelers plan and manage their trips vi
 - SQLite used as the test database for fast, isolated runs in Codespaces
 - Integration tests run against Neon/Postgres to validate production behavior
 
-# Running Tests
+## Running Tests
 This project uses pytest with Django integration to verify functionality. Tests cover webhook behavior, itinerary creation, preference parsing, and OpenAI integration.
 
 Step‑by‑step guide
@@ -79,7 +79,7 @@ Current warnings (Spacy deprecation, Django staticfiles, test DB teardown) are n
 
 Always commit your code and requirements.txt, but never commit your virtual environment (myenv/). Use .gitignore to keep your repo clean.
 
-# Troubleshooting
+## Troubleshooting
 Even with all dependencies installed, you may run into a few common issues when running tests or migrations. Here’s how to fix them:
 
 1. Missing PostgreSQL driver (psycopg2-binary)
@@ -149,6 +149,27 @@ No .env file Add Twilio and OpenAI credentials in .env before starting the serve
 Staticfiles warning Create a staticfiles/ directory or update STATIC_ROOT in settings.py.
 
 Database conflicts in tests Use pytest -v --reuse-db to avoid teardown errors.
+
+## Repository Cleanup Notice
+
+This project previously contained:
+- A nested copy of itself (`whatsapp-ai-concierge/whatsapp-ai-concierge/`)
+- Large binaries from the local Python environment (`myenv/`), including CUDA/Torch libraries
+
+These files were mistakenly committed and caused the repository size to exceed 3 GB.  
+They have now been **removed from Git history** using `git filter-repo` to ensure the repo is lightweight, maintainable, and CI‑safe.
+
+### Current structure
+- `concierge/` – Django project configuration and apps
+- `chatbot/` – Views, models, templates, static files
+- `tests/` – Isolated pytest files
+- `.gitignore` – Excludes environments, caches, and static assets
+
+### Important
+- Repo history was rewritten. Please **re‑clone** the repository to avoid conflicts:
+  ```bash
+  git clone https://github.com/Cawaale256/whatsapp-ai-concierge.git
+
 
 
 ## Tech Stack
