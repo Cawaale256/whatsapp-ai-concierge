@@ -1,6 +1,7 @@
 import re
 import datetime
 import traceback
+import logging
 from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -26,6 +27,10 @@ def whatsapp_webhook(request):
     try:
         message = request.POST.get("Body", "").strip()
         sender = request.POST.get("From", "").strip()
+
+        # log incoming payloads for debugging
+        logger.info("Incoming WhatsApp message: %s", message)
+        logger.info("Sender: %s", sender)
 
         if not message:
             return JsonResponse({"status": "error", "message": "Empty message"}, status=400)
