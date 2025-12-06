@@ -35,6 +35,8 @@ def whatsapp_webhook(request):
         if not message:
             return JsonResponse({"status": "error", "message": "Empty message"}, status=400)
 
+        if not sender:   # guard against missing sender field
+            return JsonResponse({"error": "Missing sender"}, status=400)
         # Strip whatsapp: prefix
         from_number = sender.replace("whatsapp:", "")
 
