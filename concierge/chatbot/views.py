@@ -2,6 +2,7 @@ import re
 import datetime
 import traceback
 import logging
+from venv import logger
 from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -82,7 +83,10 @@ def whatsapp_webhook(request):
         ai_response = llm.invoke([HumanMessage(content=prompt)]).content.strip()[:1000]
         if not ai_response:
             ai_response = "Sorry, I couldn't generate a response at the moment."
-
+            logger.warning("AI response was empty for user %s", from_number)
+        
+        elif len(ai_response) > 1000:
+             ai_response = ai_response[:1000].rsplit(" ", 1)[0] + "..." # Truncate without cutting words
         # Persist chat history with timestamp
         ChatHistory.objects.create(user_id=from_number, message=message, timestamp=timezone.now())
         ChatHistory.objects.create(user_id=from_number, message=ai_response, timestamp=timezone.now())
