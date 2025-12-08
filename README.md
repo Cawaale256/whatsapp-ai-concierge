@@ -71,17 +71,21 @@ Even with all dependencies installed, you may run into a few common issues when 
 
 2. Torch installation error (torch==2.6.0+cpu)
  - Error message:
+
     ERROR: No matching distribution found for torch==2.6.0+cpu
-    Fix: Replace the line in requirements.txt with:
-    code:
-      torch==2.6.0
-      Then reinstall: 
+
+    Fix: Replace the line in requirements.txt with
+      
+      Code: torch==2.6.0
+      Then reinstall:
+
         pip install -r requirements.txt
 3. Database conflicts during test teardown
 Error message:
 
 Code
 OperationalError: database "concierge_test" is being accessed by other users
+
 Fix: Run tests with the --reuse-db flag to avoid recreating the test database each time:
  - pytest -v --reuse-db
  - Or ensure only one pytest session is running at a time.
@@ -106,6 +110,59 @@ Fix: Create the missing directory:
   - Missing .env file for Twilio/OpenAI credentials
   - Using wrong Torch version (+cpu tag)
   - Not creating staticfiles/ directory
+
+## WhatsApp Chatbot Setup (Twilio + ngrok + Django)
+This section explains how to connect Django, Twilio’s WhatsApp sandbox, and ngrok for local development.
+1. Prerequisites
+Python 3.10+ and Django installed
+
+Twilio account with WhatsApp sandbox enabled
+
+ngrok installed
+
+OpenAI API key (for AI responses)
+
+2. Environment Variables:
+  - Create a .env file in your project root:
+
+    TWILIO_ACCOUNT_SID=your_account_sid
+
+    TWILIO_AUTH_TOKEN=your_auth_token
+
+    TWILIO_WHATSAPP_NUMBER=whatsapp:+number
+
+    OPENAI_API_KEY=your_openai_api_key
+
+    SECRET_KEY=your_django_secret_key
+
+4. Start ngrok
+  - Tunnel the same port Django is running on: ngrok http 5000
+
+  - Copy the HTTPS forwarding URL (e.g. https://abc123.ngrok-free.app)
+
+5. Configure Twilio Webhook
+  - In the Twilio Console → Messaging → Sandbox Settings, set:
+      https://abc123.ngrok-free.app/chatbot/webhook/
+      
+6. Verify End-to-End
+  - Send a WhatsApp message to your Twilio sandbox number.
+
+  - Check ngrok inspector — you should see a POST /chatbot/webhook/ with 200 OK.
+
+  - Django logs should show:
+
+    Message sent to whatsapp number, SID: SMxxxxxxxxxxxx
+
+7. Common Pitfalls
+
+  - Port mismatch: Django and ngrok must use the same port.
+
+  - Missing import: Ensure from twilio.rest import Client is in utils/messaging.py.
+
+  - Wrong from_ number: Must be whatsapp:+00000000000 in sandbox.
+
+  - Missing env vars: Without TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN, Twilio won’t authenticate.
+  
 
 ## Repository Cleanup Notice
 
