@@ -2,7 +2,9 @@ import re
 import datetime
 import traceback
 import logging
-from venv import logger
+import logging
+logger = logging.getLogger(__name__)
+
 from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
