@@ -20,14 +20,21 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def home(request):
-    return HttpResponse("Welcome to the WhatsApp AI Concierge!")
+    """
+    Project landing page.
+    """
+    return render(request, "chatbot/pages/home.html")
+
 urlpatterns = [
-    path("", home),  # root URL
-    path('admin/', admin.site.urls),
-    path("chatbot/", include("concierge.chatbot.urls")),  # chatbot routes
+    path("", home),
+    path("admin/", admin.site.urls),
+    path("chatbot/", include("concierge.chatbot.urls")),
+    path("chat/", include("concierge.chatbot.urls")),  # shortcut for demo
 ]
+
 
 # Optional: Serve static files in development
 if settings.DEBUG:
