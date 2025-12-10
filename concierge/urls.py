@@ -31,8 +31,8 @@ def home(request):
 urlpatterns = [
     path("", home),
     path("admin/", admin.site.urls),
-    path("chatbot/", include("concierge.chatbot.urls")),
-    path("chat/", include("concierge.chatbot.urls")),  # shortcut for demo
+    path("", include("concierge.chatbot.urls")),  # mount app routes at root
+]
 ]
 
 
