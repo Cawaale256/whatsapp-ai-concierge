@@ -1,0 +1,72 @@
+/* chatbot/templates/chatbot/partials/chat_window.html */
+.chat-window {
+    width: 400px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background: #e5ddd5; /* WhatsApp-like background */
+    font-family: Arial, sans-serif;
+}
+
+.chat-history {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.bubble {
+    max-width: 70%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.bubble.user {
+    background: #dcf8c6; /* WhatsApp green */
+    align-self: flex-end;
+    text-align: right;
+}
+
+.bubble.bot {
+    background: #fff;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.timestamp {
+    font-size: 11px;
+    color: #777;
+    display: block;
+    margin-top: 4px;
+}
+
+.chat-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+    background: #f0f0f0;
+    padding: 5px;
+}
+
+.chat-input textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.send-btn {
+    background: #25d366; /* WhatsApp send button green */
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 0 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}
