@@ -2,36 +2,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
+    <!-- Meta tags for character encoding and responsive layout -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>{% block title %}AI Travel Concierge{% endblock %}</title>
-    
-    <!-- Global CSS -->
+
+    <!-- Page title block so child templates can override -->
+    <title>{% block title %}Travel Chatbot{% endblock %}</title>
+
+    <!-- Link to static CSS file -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-    <!-- Page-specific CSS -->
-    {% block extra_head %}{% endblock %}
+
+    <!-- Optional: favicon, fonts, or external libraries -->
+    {% block head_extra %}{% endblock %}
 </head>
 <body>
-    <!-- Header / Nav (Optional: include site-wide nav here) -->
-    {% include 'partials/header.html' %}
+    <!-- Navbar include (optional) -->
+    {% include "chatbot/partials/navbar.html" %}
 
-    <main role="main">
+    <!-- Flash messages (e.g. success, error alerts) -->
+    {% include "chatbot/partials/flash_messages.html" %}
+
+    <!-- Main content block -->
+    <main>
         {% block content %}
-        <!-- Child templates will inject content here -->
+        <!-- Default content if not overridden -->
+        <p>Welcome to the Travel Chatbot!</p>
         {% endblock %}
     </main>
 
-    <!-- Footer -->
-    {% include 'partials/footer.html' %}
+    <!-- Footer include (optional) -->
+    {% include "chatbot/partials/footer.html" %}
 
-    <!-- Global Scripts -->
-    <script src="{% static 'js/main.js' %}"></script>
-
-    <!-- Page-specific Scripts -->
-    {% block extra_scripts %}{% endblock %}
+    <!-- Optional: JavaScript files -->
+    {% block scripts %}{% endblock %}
 </body>
 </html>
-

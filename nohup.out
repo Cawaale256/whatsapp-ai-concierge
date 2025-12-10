@@ -1,26 +1,2 @@
-Failed to send WhatsApp message to +447375112426: name 'Client' is not defined
-[08/Dec/2025 13:14:28] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-Failed to send WhatsApp message to +447375112426: name 'Client' is not defined
-[08/Dec/2025 13:14:52] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-Failed to send WhatsApp message to +447375112426: name 'Client' is not defined
-[08/Dec/2025 13:16:28] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-Performing system checks...
-
-System check identified no issues (0 silenced).
-December 08, 2025 - 13:12:23
-Django version 5.2.1, using settings 'concierge.settings'
-Starting development server at http://0.0.0.0:5000/
-Quit the server with CONTROL-C.
-
-WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
-For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
- Extracted ➜ Destination: Costa Rica, Dates: [datetime.date(2025, 12, 6)], Plans: {}
- Extracted ➜ Destination: Costa Rica, Dates: [datetime.date(2025, 12, 6)], Plans: {}
- Extracted ➜ Destination: Costa Rica, Dates: [datetime.date(2025, 12, 6)], Plans: {}
-[08/Dec/2025 13:22:37] "GET / HTTP/1.1" 200 37
-[08/Dec/2025 13:22:52] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-[08/Dec/2025 13:22:52] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-[08/Dec/2025 13:22:54] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-[08/Dec/2025 13:22:54] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-[08/Dec/2025 13:23:02] "POST /chatbot/webhook/ HTTP/1.1" 200 74
-[08/Dec/2025 13:23:03] "POST /chatbot/webhook/ HTTP/1.1" 200 74
+[09/Dec/2025 20:36:26] "GET / HTTP/1.1" 200 37
+[09/Dec/2025 20:38:45] "POST /chatbot/webhook/ HTTP/1.1" 200 74
