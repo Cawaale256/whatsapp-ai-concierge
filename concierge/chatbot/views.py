@@ -14,6 +14,7 @@ from .utils.itinerary import extract_itinerary_info
 from .utils.messaging import send_whatsapp_message 
 from langchain.schema import HumanMessage
 from langchain_openai import ChatOpenAI
+from django.shortcuts import render
 
 llm = ChatOpenAI(model_name="gpt-4o")
 
@@ -109,3 +110,27 @@ def whatsapp_webhook(request):
     except Exception as e:
         print(traceback.format_exc())
         return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+
+
+def chat_page(request):
+    """
+    Render the web chat interface with chat history.
+    """
+    # Fetch the last 20 messages for demo purposes
+    history = ChatHistory.objects.order_by("timestamp")[:20]
+
+    # Transform history into sender + message pairs
+    formatted_history = []
+    for chat in history:
+        sender = "user" if chat.message == chat.user_id else "bot"
+        formatted_history.append({
+            "sender": sender,
+            "message": chat.message,
+            "timestamp": chat.timestamp,
+        })
+
+    return render(request, "chatbot/partials/chat_window.html", {
+        "history": formatted_history
+    })
+
