@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import whatsapp_webhook
+from . import views   # import the whole views module
 
 app_name = "chatbot"
 
 urlpatterns = [
-    path("webhook/", whatsapp_webhook, name="whatsapp_webhook"),   # WhatsApp webhook   
+    path("chat/", views.chat_page, name="chat_page"),    
+    # WhatsApp webhook (Twilio will POST here)
+    path("webhook/", views.whatsapp_webhook, name="whatsapp_webhook"),  
 ]
 
 
