@@ -107,6 +107,47 @@ body {
   }
 }
 
+/* ===== Chat History Styles ===== */
+.chat-history {
+  display: flex;
+  flex-direction: column;
+}
+.chat-message {
+  margin: 5px 0;
+  display: flex;
+}
+.chat-message.user {
+  justify-content: flex-end;
+}
+.chat-message.ai {
+  justify-content: flex-start;
+}
+.bubble {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  position: relative;
+  font-size: 0.95rem;
+}
+.chat-message.user .bubble {
+  background-color: #dcf8c6; /* WhatsApp green */
+  border-bottom-right-radius: 0;
+}
+.chat-message.ai .bubble {
+  background-color: #f1f0f0; /* light gray */
+  border-bottom-left-radius: 0;
+}
+.timestamp {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 5px;
+  text-align: right;
+}
+.sender {
+  font-weight: bold;
+}
+
+
 /* Tablets & Small Laptops */
 @media (max-width: 1024px) {
   .hero {
@@ -140,3 +181,5 @@ body {
     font-size: 1.1rem;
   }
 }
+
+
