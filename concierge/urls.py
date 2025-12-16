@@ -33,7 +33,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("concierge.chatbot.urls")),  # mount app routes at root
 ]
-]
 
 
 # Optional: Serve static files in development

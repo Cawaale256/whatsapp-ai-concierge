@@ -20,7 +20,7 @@
     </div>
 
     <!-- Input area -->
-    <form method="post" action="{% url 'chatbot:webhook' %}" class="chat-input">
+    <form method="post" action="{% url 'chatbot:whatsapp_webhook' %}" class="chat-input">
         {% csrf_token %}
         <textarea name="Body" placeholder="Type a message..." rows="2"></textarea>
         <input type="hidden" name="From" value="web-client">

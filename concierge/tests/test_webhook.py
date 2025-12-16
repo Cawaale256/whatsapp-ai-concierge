@@ -49,21 +49,21 @@ def test_multiple_messages_sequence(client, traveler):
     assert history.count() > 0  # At least one chat history record should exist
 
 
-@pytest.mark.parametrize("from_field", [
-    "whatsapp:+44ABC",   # invalid characters
-    "whatsapp:447123",   # too short
-    "whatsapp:+12345678901234567890",  # too long
-    "whatsapp:",         # missing number
-    ""                   # empty string
+@pytest.mark.parametrize("from_field, expected_error", [
+    ("whatsapp:+44ABC", "Invalid phone number"),   # invalid characters
+    ("whatsapp:447123", "Invalid phone number"),   # too short
+    ("whatsapp:+12345678901234567890", "Invalid phone number"),  # too long
+    ("whatsapp:", "Invalid phone number"),         # missing number
+    ("", "Missing sender"),                        # empty string
 ])
-def test_invalid_phone_rejected(client, from_field):
-    """Webhook should reject invalid phone numbers with 400 error."""
+def test_invalid_phone_rejected(client, from_field, expected_error):
+    """Webhook should reject invalid or missing phone numbers with 400 error."""
     response = client.post(
         reverse("chatbot:whatsapp_webhook"),
         {"Body": "Hello", "From": from_field}
     )
     assert response.status_code == 400
-    assert "Invalid phone number" in response.content.decode()
+    assert expected_error in response.content.decode()
 
 
 def test_itinerary_created_from_command(client, traveler):
