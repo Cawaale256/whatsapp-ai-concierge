@@ -15,6 +15,8 @@ from .utils.messaging import send_whatsapp_message
 from langchain.schema import HumanMessage
 from langchain_openai import ChatOpenAI
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import ChatHistory
 
 llm = ChatOpenAI(model_name="gpt-4o")
 
@@ -133,4 +135,18 @@ def chat_page(request):
     return render(request, "chatbot/partials/chat_window.html", {
         "history": formatted_history
     })
+
+
+@login_required
+def chat_history(request):
+    # Query all chats for the logged-in user, ordered by timestamp
+    chats = ChatHistory.objects.filter(user=request.user).order_by("timestamp")
+
+    # Group chats by date for readability
+    grouped = {}
+    for chat in chats:
+        day = chat.timestamp.date()
+        grouped.setdefault(day, []).append(chat)
+
+    return render(request, "chatbot/history.html", {"grouped_chats": grouped})
 
