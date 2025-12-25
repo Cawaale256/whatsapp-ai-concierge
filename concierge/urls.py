@@ -21,16 +21,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib.auth import views as auth_views
 
 def home(request):
     """
     Project landing page.
     """
-    return render(request, "chatbot/pages/home.html")
+    # return render(request, "chatbot/pages/home.html")
+    return render(request, "chatbot/pages/history.html")
+
+
 
 urlpatterns = [
     path("", home),
     path("admin/", admin.site.urls),
+    path("accounts/login/", auth_views.LoginView.as_view(template_name="chatbot/auth/signin.html"), name="login"),
+    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("", include("concierge.chatbot.urls")),  # mount app routes at root
 ]
 

@@ -90,11 +90,10 @@ def whatsapp_webhook(request):
             logger.warning("AI response was empty for user %s", from_number)
         
         elif len(ai_response) > 1000:
-             ai_response = ai_response[:1000].rsplit(" ", 1)[0] + "..." # Truncate without cutting words
+            ai_response = ai_response[:1000].rsplit(" ", 1)[0] + "..." # Truncate without cutting words
         # Persist chat history with timestamp
-        ChatHistory.objects.create(user_id=from_number, message=message, timestamp=timezone.now())
-        ChatHistory.objects.create(user_id=from_number, message=ai_response, timestamp=timezone.now())
-
+            ChatHistory.objects.create(phone_number=from_number, message=message)
+            ChatHistory.objects.create(phone_number=from_number, message=ai_response)
         # Update preferences
         pref_freq = scan_preferences(from_number)
         profile.preferences = ", ".join(f"{tag}({count})" for tag, count in pref_freq.items())
@@ -140,7 +139,7 @@ def chat_page(request):
 @login_required
 def chat_history(request):
     # Query all chats for the logged-in user, ordered by timestamp
-    chats = ChatHistory.objects.filter(user=request.user).order_by("timestamp")
+    chats = ChatHistory.objects.all().order_by("timestamp")
 
     # Group chats by date for readability
     grouped = {}
@@ -148,5 +147,5 @@ def chat_history(request):
         day = chat.timestamp.date()
         grouped.setdefault(day, []).append(chat)
 
-    return render(request, "chatbot/history.html", {"grouped_chats": grouped})
+    return render(request, "chatbot/pages/history.html", {"grouped_chats": grouped})
 

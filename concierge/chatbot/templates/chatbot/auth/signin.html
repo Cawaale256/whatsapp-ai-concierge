@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
-
-{% block title %}Sign In{% endblock %}
+{% extends "chatbot/layouts/base.html" %}
 
 {% block content %}
-  <h2>Register</h2>
+<div class="container mt-5">
+  <h2>Sign In</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign In</button>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
+</div>
 {% endblock %}

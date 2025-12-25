@@ -109,9 +109,9 @@ DATABASES = {
         "OPTIONS": {"sslmode": "require"},
         "TEST": { 
             "NAME": "concierge_test",   # A real test DB name
-    }
-} 
-}
+                }
+                } 
+            }
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -132,6 +132,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
+
+# Authentication redirects
+LOGIN_REDIRECT_URL = "/history/"
+LOGIN_URL = "/accounts/login/"
+LOGOUT_REDIRECT_URL = "/"
+
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"

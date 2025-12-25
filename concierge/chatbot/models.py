@@ -1,13 +1,14 @@
 # Create your models here.
 from django.db import models
+from django.contrib.auth.models import User
 
 class ChatHistory(models.Model):
-    user_id = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=255)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user_id} said: {self.message[:50]}..."
+        return f"{self.phone_number} said: {self.message[:50]}..."
 
 
 
