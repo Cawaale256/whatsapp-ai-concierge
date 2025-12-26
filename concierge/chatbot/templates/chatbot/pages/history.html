@@ -11,20 +11,23 @@
 
   {% for day, chats in grouped_chats.items %}
     <h4 class="mt-3">{{ day|date:"F j, Y" }}</h4>
+
     <div class="chat-history">
       {% for chat in chats %}
-        <div class="chat-message {% if chat.is_user %}user{% else %}ai{% endif %}">
-          <div class="bubble">
-            {% if chat.is_user %}
-              <span class="sender">You</span>: {{ chat.message }}
-            {% else %}
-              <span class="sender">AI</span>: {{ chat.response }}
-            {% endif %}
+        {% if chat.message.startswith:"AI:" %}
+          <div class="bubble bot">
+            <strong>AI:</strong> {{ chat.message|slice:"3:" }}
             <div class="timestamp">{{ chat.timestamp|time:"H:i" }}</div>
           </div>
-        </div>
+        {% else %}
+          <div class="bubble user">
+            <strong>You:</strong> {{ chat.message }}
+            <div class="timestamp">{{ chat.timestamp|time:"H:i" }}</div>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
+
   {% empty %}
     <p>No past conversations found.</p>
   {% endfor %}
