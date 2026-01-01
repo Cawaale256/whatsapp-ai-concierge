@@ -1,3 +1,103 @@
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'chatbot:chat_history' %}">History</a>
-</li>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" id="mainNavbar">
+  <div class="container-fluid">
+    <!-- Brand/Logo -->
+    <a class="navbar-brand fw-bold" href="{% url 'chatbot:home' %}">
+      ✈️ Travel Chatbot
+    </a>
+
+    <!-- Mobile Toggle Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Main Navigation with Icons -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'chatbot:home' %}">
+            <i class="bi bi-house-door"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'chatbot:dashboard' %}">
+            <i class="bi bi-speedometer2"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'chat_history' %}active{% endif %}" href="{% url 'chatbot:chat_history' %}">
+            <i class="bi bi-clock-history"></i> History
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'itinerary' %}active{% endif %}" href="{% url 'chatbot:itinerary' %}">
+            <i class="bi bi-map"></i> Itinerary
+          </a>
+        </li>
+
+        <!-- Divider -->
+        <li class="nav-item">
+          <div class="vr mx-2 text-muted"></div>
+        </li>
+
+        <!-- Dark Mode Toggle -->
+        <li class="nav-item">
+          <button class="nav-link btn-toggle-dark" id="darkModeToggle" role="button" title="Toggle dark mode">
+            <i class="bi bi-moon-fill"></i>
+          </button>
+        </li>
+
+        <!-- User Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle"></i>
+            {% if user.is_authenticated %}
+              {{ user.first_name|default:user.username }}
+            {% else %}
+              Account
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            {% if user.is_authenticated %}
+              <li>
+                <a class="dropdown-item" href="{% url 'chatbot:profile' %}">
+                  <i class="bi bi-person"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'chatbot:settings' %}">
+                  <i class="bi bi-gear"></i> Settings
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'chatbot:logout' %}">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a class="dropdown-item" href="{% url 'chatbot:signin' %}">
+                  <i class="bi bi-box-arrow-in-right"></i> Sign In
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'chatbot:signup' %}">
+                  <i class="bi bi-person-plus"></i> Sign Up
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </li>
+
+        <!-- Help Icon -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chatbot:help' %}" title="Help">
+            <i class="bi bi-question-circle"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
