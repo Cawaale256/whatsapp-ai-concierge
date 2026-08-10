@@ -1,0 +1,128 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-9.0.1, pluggy-1.6.0 -- /home/codespace/.python/current/bin/python3
+cachedir: .pytest_cache
+django: version: 5.2.1, settings: concierge.settings (from ini)
+rootdir: /workspaces/whatsapp-ai-concierge
+configfile: pytest.ini
+plugins: anyio-4.9.0, langsmith-0.3.45, django-4.11.1
+collecting ... collected 12 items
+
+concierge/tests/test_webhook.py::test_webhook_valid_post FAILED          [  8%]
+
+=================================== FAILURES ===================================
+___________________________ test_webhook_valid_post ____________________________
+
+client = <django.test.client.Client object at 0x72120331f0e0>
+traveler = <TravelerProfile: +447123456789>
+
+    def test_webhook_valid_post(client, traveler):
+        """Webhook should accept a valid POST and return success."""
+        response = client.post(
+            reverse("chatbot:whatsapp_webhook"),
+            {"Body": "Hello bot!", "From": f"whatsapp:{traveler.phone_number}"}
+        )
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <JsonResponse status_code=400, "application/json">.status_code
+
+client     = <django.test.client.Client object at 0x72120331f0e0>
+response   = <JsonResponse status_code=400, "application/json">
+traveler   = <TravelerProfile: +447123456789>
+
+concierge/tests/test_webhook.py:20: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, chatbot, contenttypes, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying chatbot.0001_initial... OK
+  Applying chatbot.0002_travelerprofile... OK
+  Applying chatbot.0003_travelerprofile_travel_buddy_and_more... OK
+  Applying chatbot.0004_itinerary... OK
+  Applying chatbot.0005_alter_travelerprofile_phone_number... OK
+  Applying chatbot.0006_alter_itinerary_end_date... OK
+  Applying chatbot.0007_rename_user_id_chathistory_user... OK
+  Applying chatbot.0008_rename_user_chathistory_phone_number... OK
+  Applying sessions.0001_initial... OK
+---------------------------- Captured stderr setup -----------------------------
+Creating test database for alias 'default' ('concierge_test')...
+Got an error creating the test database: database "concierge_test" already exists
+
+Destroying old test database for alias 'default' ('concierge_test')...
+----------------------------- Captured stdout call -----------------------------
+ Extracted ➜ Destination: None, Dates: [], Plans: {}
+Traceback (most recent call last):
+  File "/workspaces/whatsapp-ai-concierge/concierge/chatbot/views.py", line 98, in whatsapp_webhook
+    pref_freq = scan_preferences(from_number)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/whatsapp-ai-concierge/concierge/chatbot/utils/preferences.py", line 19, in scan_preferences
+    count = ChatHistory.objects.filter(user_id=user_id, message__icontains=keyword).count()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/query.py", line 1491, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/query.py", line 1509, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/query.py", line 1516, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/sql/query.py", line 1643, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/sql/query.py", line 1675, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/sql/query.py", line 1523, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/sql/query.py", line 1330, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/django/db/models/sql/query.py", line 1802, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'user_id' into field. Choices are: id, message, phone_number, timestamp
+
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:248 Bad Request: /webhook/
+--------------------------- Captured stderr teardown ---------------------------
+Destroying test database for alias 'default' ('concierge_test')...
+=============================== warnings summary ===============================
+concierge/tests/test_webhook.py::test_webhook_valid_post
+  /home/codespace/.python/current/lib/python3.12/site-packages/spacy/cli/_util.py:23: DeprecationWarning: Importing 'parser.split_arg_string' is deprecated, it will only be available in 'shell_completion' in Click 9.0.
+    from click.parser import split_arg_string
+
+concierge/tests/test_webhook.py::test_webhook_valid_post
+  /home/codespace/.python/current/lib/python3.12/site-packages/weasel/util/config.py:8: DeprecationWarning: Importing 'parser.split_arg_string' is deprecated, it will only be available in 'shell_completion' in Click 9.0.
+    from click.parser import split_arg_string
+
+concierge/tests/test_webhook.py::test_webhook_valid_post
+  /workspaces/whatsapp-ai-concierge:0: PytestWarning: Error when trying to teardown test databases: OperationalError('database "concierge_test" is being accessed by other users\nDETAIL:  There is 1 other session using the database.\n')
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED concierge/tests/test_webhook.py::test_webhook_valid_post - assert 400 == 200
+ +  where 400 = <JsonResponse status_code=400, "application/json">.status_code
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======================== 1 failed, 3 warnings in 13.43s ========================

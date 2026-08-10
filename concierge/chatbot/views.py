@@ -14,14 +14,14 @@ from .utils.itinerary import extract_itinerary_info
 from .utils.messaging import send_whatsapp_message 
 from langchain.schema import HumanMessage
 from langchain_openai import ChatOpenAI
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+# from django.shortcuts import render
+# from django.contrib.auth.decorators import login_required
 from .models import ChatHistory
 
 llm = ChatOpenAI(model_name="gpt-4o")
 
 def valid_phone(phone: str) -> bool:
-    """Validate phone numbers: must be digits with optional +, length 7–15."""
+    """Validate phone numbers: must be digits with optional +, length 7-15."""
     return bool(phone and re.match(r"^\+?\d{7,15}$", phone))
 
 @csrf_exempt
@@ -114,38 +114,38 @@ def whatsapp_webhook(request):
 
 
 
-def chat_page(request):
-    """
-    Render the web chat interface with chat history.
-    """
-    # Fetch the last 20 messages for demo purposes
-    history = ChatHistory.objects.order_by("timestamp")[:20]
-
-    # Transform history into sender + message pairs
-    formatted_history = []
-    for chat in history:
-        sender = "user" if chat.message == chat.user_id else "bot"
-        formatted_history.append({
-            "sender": sender,
-            "message": chat.message,
-            "timestamp": chat.timestamp,
-        })
-
-    return render(request, "chatbot/partials/chat_window.html", {
-        "history": formatted_history
-    })
-
-
-@login_required
-def chat_history(request):
-    # Query all chats for the logged-in user, ordered by timestamp
-    chats = ChatHistory.objects.all().order_by("timestamp")
-
-    # Group chats by date for readability
-    grouped = {}
-    for chat in chats:
-        day = chat.timestamp.date()
-        grouped.setdefault(day, []).append(chat)
-
-    return render(request, "chatbot/pages/history.html", {"grouped_chats": grouped})
+# def chat_page(request):
+#     """
+#     Render the web chat interface with chat history.
+#     """
+#     # Fetch the last 20 messages for demo purposes
+#     history = ChatHistory.objects.order_by("timestamp")[:20]
+#
+#     # Transform history into sender + message pairs
+#     formatted_history = []
+#     for chat in history:
+#         sender = "user" if chat.message == chat.user_id else "bot"
+#         formatted_history.append({
+#             "sender": sender,
+#             "message": chat.message,
+#             "timestamp": chat.timestamp,
+#         })
+#
+#     return render(request, "chatbot/partials/chat_window.html", {
+#         "history": formatted_history
+#     })
+#
+#
+# @login_required
+# def chat_history(request):
+#     # Query all chats for the logged-in user, ordered by timestamp
+#     chats = ChatHistory.objects.all().order_by("timestamp")
+#
+#     # Group chats by date for readability
+#     grouped = {}
+#     for chat in chats:
+#         day = chat.timestamp.date()
+#         grouped.setdefault(day, []).append(chat)
+#
+#     return render(request, "chatbot/pages/history.html", {"grouped_chats": grouped})
 

@@ -18,6 +18,7 @@ media/
 
 # Test & coverage
 .pytest_cache/
+.pytest-output.txt
 .coverage
 coverage.xml
 
